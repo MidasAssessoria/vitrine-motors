@@ -14,7 +14,7 @@
  * São canais independentes com responsabilidades distintas.
  */
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import type { Lead } from '../../types';
 
 // ─── Contrato de subscribeToNewLeads ─────────────────────────────────────────
@@ -61,8 +61,8 @@ function makeLeadStub(overrides: Partial<Lead> = {}): Lead {
     temperature: 'hot',
     expected_close_date: null,
     deal_value: null,
-    loss_reason: null,
-    notes: null,
+    loss_reason: '',
+    notes: '',
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
     ...overrides,

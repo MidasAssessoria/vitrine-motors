@@ -7,13 +7,16 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-supabase': ['@supabase/supabase-js'],
-          'vendor-stripe': ['@stripe/react-stripe-js', '@stripe/stripe-js'],
-          'vendor-motion': ['framer-motion'],
-          'vendor-ui': ['lucide-react', 'react-helmet-async'],
-          'vendor-forms': ['react-hook-form', '@hookform/resolvers', 'zod'],
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('react')) return 'vendor-react';
+            if (id.includes('@supabase')) return 'vendor-supabase';
+            if (id.includes('@stripe')) return 'vendor-stripe';
+            if (id.includes('framer-motion')) return 'vendor-motion';
+            if (id.includes('lucide-react') || id.includes('react-helmet')) return 'vendor-ui';
+            if (id.includes('react-hook-form') || id.includes('zod')) return 'vendor-forms';
+            return 'vendor';
+          }
         },
       },
     },

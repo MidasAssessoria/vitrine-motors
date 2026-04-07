@@ -13,7 +13,6 @@ import {
 import { useSubscription } from '../../hooks/useSubscription';
 import { useAuthStore } from '../../stores/authStore';
 import { openBillingPortal } from '../../lib/subscriptions';
-import { PRICING_TIERS } from '../../types/subscription';
 
 export default function SubscriptionManager() {
   const user = useAuthStore((s) => s.user);

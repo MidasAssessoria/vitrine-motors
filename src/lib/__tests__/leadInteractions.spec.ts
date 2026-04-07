@@ -19,7 +19,7 @@ const leadInteractionSchema = z.object({
   lead_id: z.string().uuid('ID do lead inválido'),
 
   type: z.enum(['call', 'whatsapp', 'email', 'note', 'visit'], {
-    errorMap: () => ({ message: 'Tipo de interação inválido' }),
+    message: 'Tipo de interação inválido',
   }),
 
   content: z

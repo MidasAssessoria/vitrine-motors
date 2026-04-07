@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "additionalDirectories": [
+      "C:/Users/jhcar/OneDrive/Área de Trabalho/superpowers"
+    ],
+    "allow": [
+      "Bash(git -C \"C:/Users/jhcar/OneDrive/Área de Trabalho/superpowers\" pull)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/autoformat.sh",
+            "timeout": 15000
+          }
+        ]
+      }
+    ]
+  }
+}

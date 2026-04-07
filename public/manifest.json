@@ -1,0 +1,28 @@
+{
+  "name": "VitrineMOTORS - Marketplace de Vehiculos",
+  "short_name": "VitrineMOTORS",
+  "description": "Compra y vende autos, motos y barcos en Paraguay",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF9F7",
+  "theme_color": "#E8772E",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["shopping", "auto"],
+  "lang": "es",
+  "dir": "ltr"
+}

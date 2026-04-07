@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VitrineMOTORS — Análise Visual</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #0f0f13; color: #e5e7eb; padding: 24px; }
+
+  h1 { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+  .tagline { font-size: 13px; color: #9ca3af; margin-bottom: 32px; }
+
+  .section-title {
+    font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+    color: #f97316; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+  }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: #1f2937; }
+
+  .compare-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px;
+  }
+
+  .panel {
+    border-radius: 12px; overflow: hidden;
+  }
+  .panel-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    padding: 8px 14px; display: flex; align-items: center; gap: 6px;
+  }
+  .panel.before .panel-label { background: #1f2937; color: #6b7280; }
+  .panel.after .panel-label { background: #f97316; color: #fff; }
+  .panel-label .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .panel-body { padding: 16px; background: #fff; }
+
+  /* PROBLEMA badge */
+  .issue { font-size: 11px; color: #ef4444; background: #fef2f2; border: 1px solid #fecaca; border-radius: 6px; padding: 6px 10px; margin-bottom: 10px; display: flex; gap: 6px; align-items: flex-start; }
+  .fix { font-size: 11px; color: #065f46; background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 6px; padding: 6px 10px; margin-bottom: 10px; display: flex; gap: 6px; align-items: flex-start; }
+
+  /* ---- HEADER CURRENT ---- */
+  .header-current {
+    background: linear-gradient(to right, #FAF9F7, #fff, #FDF8F3);
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+    padding: 0 16px; height: 64px; display: flex; align-items: center; justify-content: space-between;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  .logo-overflow {
+    height: 96px; /* h-24 = 96px, overflows the 64px header */
+    width: auto; background: linear-gradient(135deg, #f97316, #ea580c);
+    color: white; font-weight: 900; font-size: 12px; padding: 6px 10px;
+    display: flex; align-items: center; border-radius: 4px; white-space: nowrap;
+  }
+  .nav-pills { display: flex; gap: 2px; background: #f3f4f6; border-radius: 999px; padding: 2px; }
+  .nav-pill { font-size: 11px; padding: 5px 10px; border-radius: 999px; color: #536471; }
+  .nav-pill.active { background: #f97316; color: white; }
+  .header-btn { font-size: 11px; padding: 5px 14px; border-radius: 999px; }
+  .header-btn.outline { border: 1px solid #e5e7eb; color: #374151; }
+  .header-btn.primary { background: #f97316; color: white; border: none; }
+
+  /* ---- HEADER IMPROVED ---- */
+  .header-new {
+    background: #fff;
+    border-bottom: 2px solid #f97316;
+    padding: 0 20px; height: 64px; display: flex; align-items: center; justify-content: space-between;
+    font-family: 'Segoe UI', sans-serif; box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  }
+  .logo-new {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .logo-mark { width: 32px; height: 32px; background: #f97316; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+  .logo-mark svg { width: 18px; height: 18px; fill: white; }
+  .logo-text { font-size: 15px; font-weight: 900; color: #111; letter-spacing: -0.5px; }
+  .logo-text span { color: #f97316; }
+  .nav-new { display: flex; gap: 20px; }
+  .nav-link-new { font-size: 12px; color: #536471; font-weight: 500; position: relative; }
+  .nav-link-new.active { color: #f97316; font-weight: 700; }
+  .nav-link-new.active::after { content: ''; position: absolute; bottom: -22px; left: 0; right: 0; height: 2px; background: #f97316; }
+  .header-right-new { display: flex; align-items: center; gap: 10px; }
+  .btn-login-new { font-size: 12px; color: #374151; padding: 7px 14px; border: 1.5px solid #e5e7eb; border-radius: 999px; font-weight: 600; }
+  .btn-pub-new { font-size: 12px; background: #f97316; color: white; padding: 7px 16px; border-radius: 999px; font-weight: 700; display: flex; align-items: center; gap: 5px; box-shadow: 0 4px 12px rgba(249,115,22,0.3); }
+
+  /* ---- SEARCH CURRENT ---- */
+  .search-current {
+    background: white; border-radius: 16px; padding: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0.07);
+  }
+  .search-tabs { display: flex; gap: 8px; margin-bottom: 12px; }
+  .stab { font-size: 11px; padding: 6px 14px; border-radius: 999px; display: flex; align-items: center; gap: 5px; }
+  .stab.active { background: #f97316; color: white; }
+  .stab.inactive { background: #f3f4f6; color: #536471; }
+  .filters-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+  .filter-box { background: #f3f4f6; border-radius: 10px; padding: 8px 12px; display: flex; align-items: center; gap: 6px; }
+  .filter-icon { width: 14px; height: 14px; background: #9ca3af; border-radius: 2px; flex-shrink: 0; }
+  .filter-text { font-size: 11px; color: #9ca3af; }
+  .search-btn-row { display: flex; justify-content: flex-end; }
+  .search-btn { background: #f97316; color: white; font-size: 12px; font-weight: 700; padding: 9px 20px; border-radius: 999px; }
+
+  /* ---- SEARCH NEW ---- */
+  .search-new {
+    background: white; border-radius: 20px; padding: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.12); border: 1px solid rgba(0,0,0,0.05);
+  }
+  .search-hero-headline {
+    font-size: 18px; font-weight: 900; color: #111; margin-bottom: 14px; line-height: 1.2; font-family: 'Segoe UI', sans-serif;
+  }
+  .search-hero-headline span { color: #f97316; }
+  .tab-row-new { display: flex; gap: 6px; margin-bottom: 14px; }
+  .stab-new { font-size: 11px; padding: 7px 16px; border-radius: 999px; display: flex; align-items: center; gap: 5px; font-weight: 600; }
+  .stab-new.active { background: #111; color: white; }
+  .stab-new.inactive { background: #f3f4f6; color: #536471; }
+  .search-bar-unified {
+    display: flex; align-items: center; gap: 0; background: #f8f9fa; border: 2px solid #e5e7eb; border-radius: 999px; overflow: hidden; margin-bottom: 10px;
+  }
+  .search-bar-unified:focus-within { border-color: #f97316; }
+  .sbar-section { flex: 1; padding: 10px 16px; border-right: 1px solid #e5e7eb; }
+  .sbar-section:last-of-type { border-right: none; }
+  .sbar-label { font-size: 9px; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 1px; }
+  .sbar-value { font-size: 12px; color: #374151; font-weight: 600; }
+  .search-btn-new { background: #f97316; color: white; padding: 10px 20px; font-size: 13px; font-weight: 800; border-radius: 999px; white-space: nowrap; box-shadow: 0 4px 14px rgba(249,115,22,0.4); }
+  .search-count { font-size: 11px; color: #9ca3af; margin-top: 8px; }
+  .search-count span { color: #f97316; font-weight: 700; }
+
+  /* ---- LISTING CARD CURRENT ---- */
+  .card-current {
+    background: white; border-radius: 16px; overflow: hidden; border: 1px solid #e5e7eb; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    width: 200px;
+  }
+  .card-img { aspect-ratio: 4/3; background: linear-gradient(135deg, #e5e7eb, #f3f4f6); position: relative; display: flex; align-items: center; justify-content: center; }
+  .card-img-placeholder { color: #9ca3af; font-size: 11px; }
+  .badge-on-img { position: absolute; top: 8px; left: 8px; background: #f97316; color: white; font-size: 9px; font-weight: 700; padding: 3px 8px; border-radius: 999px; }
+  .card-heart { position: absolute; top: 8px; right: 8px; background: rgba(255,255,255,0.9); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; }
+  .card-body-current { padding: 12px; }
+  .card-title { font-size: 12px; font-weight: 700; color: #111; margin-bottom: 4px; }
+  .card-price { font-size: 16px; font-weight: 900; color: #f97316; margin-bottom: 8px; }
+  .specs-row { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
+  .spec-chip { font-size: 10px; background: #f3f4f6; color: #536471; padding: 2px 7px; border-radius: 999px; }
+  .card-location { font-size: 10px; color: #9ca3af; display: flex; align-items: center; gap: 3px; margin-bottom: 10px; }
+  .card-divider { border-top: 1px solid #e5e7eb; padding-top: 8px; display: flex; align-items: center; justify-content: space-between; }
+  .card-seller { font-size: 10px; color: #9ca3af; }
+  .wa-btn { background: #25D366; color: white; font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 999px; }
+
+  /* ---- LISTING CARD NEW ---- */
+  .card-new {
+    background: white; border-radius: 16px; overflow: hidden; border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08); width: 200px;
+    transition: transform 0.2s; position: relative;
+  }
+  .card-img-new { aspect-ratio: 4/3; background: linear-gradient(135deg, #1e3a5f, #2d5986); position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .card-img-gradient { position: absolute; bottom: 0; left: 0; right: 0; height: 60%; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); }
+  .price-on-img { position: absolute; bottom: 10px; left: 12px; color: white; font-size: 18px; font-weight: 900; text-shadow: 0 1px 4px rgba(0,0,0,0.5); }
+  .badge-0km { position: absolute; top: 10px; left: 10px; background: #10b981; color: white; font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 999px; letter-spacing: 0.5px; }
+  .badge-boost { position: absolute; top: 10px; left: 10px; background: linear-gradient(135deg, #f97316, #ea580c); color: white; font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 999px; box-shadow: 0 2px 8px rgba(249,115,22,0.4); }
+  .heart-new { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.95); width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+  .card-body-new { padding: 12px; }
+  .card-title-new { font-size: 13px; font-weight: 700; color: #111; margin-bottom: 6px; line-height: 1.3; }
+  .specs-row-new { display: flex; gap: 4px; margin-bottom: 8px; flex-wrap: wrap; }
+  .spec-chip-new { font-size: 10px; background: #f3f4f6; color: #374151; padding: 3px 8px; border-radius: 999px; font-weight: 600; }
+  .card-bottom-new { display: flex; align-items: center; justify-content: space-between; padding-top: 8px; border-top: 1px solid #f3f4f6; }
+  .dealer-info-new { display: flex; align-items: center; gap: 4px; }
+  .dealer-avatar { width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, #1e3a5f, #2d5986); display: flex; align-items: center; justify-content: center; font-size: 8px; color: white; font-weight: 700; }
+  .dealer-name-new { font-size: 10px; color: #536471; font-weight: 600; }
+  .verified-icon { font-size: 11px; color: #2563eb; }
+  .wa-btn-new { background: linear-gradient(135deg, #25D366, #128C7E); color: white; font-size: 10px; font-weight: 800; padding: 5px 12px; border-radius: 999px; box-shadow: 0 2px 8px rgba(37,211,102,0.3); }
+
+  /* ---- COMO FUNCIONA CURRENT ---- */
+  .steps-current { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .step-card { background: white; border-radius: 16px; border: 1px solid #e5e7eb; padding: 14px; }
+  .step-icon-box { width: 40px; height: 40px; border-radius: 10px; background: #fff7ed; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; font-size: 18px; }
+  .step-num { font-size: 9px; color: #9ca3af; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
+  .step-title { font-size: 13px; font-weight: 700; color: #111; margin: 2px 0 4px; }
+  .step-desc { font-size: 11px; color: #536471; line-height: 1.5; }
+
+  /* ---- COMO FUNCIONA NEW ---- */
+  .steps-new { display: flex; gap: 0; position: relative; }
+  .steps-new::before { content: ''; position: absolute; top: 24px; left: 40px; right: 40px; height: 2px; background: linear-gradient(to right, #f97316, #fb923c, #f97316); opacity: 0.3; z-index: 0; }
+  .step-new { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 12px; position: relative; z-index: 1; }
+  .step-circle { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, #f97316, #ea580c); display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; font-weight: 900; box-shadow: 0 4px 14px rgba(249,115,22,0.35); margin-bottom: 12px; border: 3px solid white; }
+  .step-title-new { font-size: 13px; font-weight: 800; color: #111; margin-bottom: 4px; }
+  .step-desc-new { font-size: 10px; color: #536471; line-height: 1.5; }
+  .step-arrow { position: absolute; top: 18px; right: -8px; color: #f97316; font-size: 16px; z-index: 2; opacity: 0.5; }
+
+  /* ---- CTA CURRENT ---- */
+  .cta-current { background: linear-gradient(to right, rgba(15,23,42,0.9), rgba(15,23,42,0.7)); padding: 32px 20px; text-align: center; border-radius: 12px; position: relative; overflow: hidden; }
+  .cta-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #1e3a5f 0%, #374151 100%); opacity: 0.8; }
+  .cta-content { position: relative; z-index: 1; }
+  .cta-label { font-size: 10px; color: #f97316; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px; }
+  .cta-title { font-size: 22px; font-weight: 900; color: white; margin-bottom: 8px; }
+  .cta-subtitle { font-size: 12px; color: rgba(255,255,255,0.6); margin-bottom: 16px; }
+  .cta-btns { display: flex; gap: 8px; justify-content: center; }
+  .cta-btn-primary { background: #f97316; color: white; font-size: 12px; font-weight: 700; padding: 10px 20px; border-radius: 999px; }
+  .cta-btn-secondary { border: 1px solid rgba(255,255,255,0.3); color: white; font-size: 12px; padding: 10px 16px; border-radius: 999px; }
+
+  /* ---- CTA NEW ---- */
+  .cta-new { border-radius: 20px; overflow: hidden; position: relative; }
+  .cta-new-bg { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0f172a 100%); padding: 32px 24px; text-align: center; position: relative; }
+  .cta-new-bg::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 50%, rgba(249,115,22,0.15) 0%, transparent 60%); }
+  .cta-new-bg::after { content: ''; position: absolute; top: -40px; right: -40px; width: 180px; height: 180px; background: radial-gradient(circle, rgba(249,115,22,0.1) 0%, transparent 70%); border-radius: 50%; }
+  .cta-new-content { position: relative; z-index: 1; }
+  .cta-new-eyebrow { display: inline-flex; align-items: center; gap: 6px; background: rgba(249,115,22,0.15); border: 1px solid rgba(249,115,22,0.3); color: #f97316; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 4px 12px; border-radius: 999px; margin-bottom: 14px; }
+  .cta-new-title { font-size: 26px; font-weight: 900; color: white; line-height: 1.15; margin-bottom: 10px; }
+  .cta-new-title span { color: #f97316; }
+  .cta-new-subtitle { font-size: 12px; color: rgba(255,255,255,0.55); margin-bottom: 20px; max-width: 320px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+  .cta-new-stats { display: flex; justify-content: center; gap: 24px; margin-bottom: 20px; }
+  .stat { text-align: center; }
+  .stat-num { font-size: 22px; font-weight: 900; color: white; }
+  .stat-label { font-size: 10px; color: rgba(255,255,255,0.4); }
+  .stat-divider { width: 1px; background: rgba(255,255,255,0.1); }
+  .cta-new-btns { display: flex; gap: 10px; justify-content: center; }
+  .cta-new-btn-primary { background: #f97316; color: white; font-size: 13px; font-weight: 800; padding: 12px 24px; border-radius: 999px; box-shadow: 0 6px 20px rgba(249,115,22,0.4); display: flex; align-items: center; gap: 6px; }
+  .cta-new-btn-sec { border: 1.5px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); font-size: 12px; padding: 11px 20px; border-radius: 999px; font-weight: 600; }
+
+  .improvement-note {
+    background: #1f2937; border-radius: 10px; padding: 12px 16px; margin-bottom: 24px;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .imp-icon { font-size: 20px; flex-shrink: 0; }
+  .imp-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .imp-desc { font-size: 12px; color: #9ca3af; line-height: 1.5; }
+  .imp-tags { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+  .imp-tag { font-size: 10px; background: #374151; color: #d1d5db; padding: 3px 8px; border-radius: 999px; }
+  .imp-tag.high { background: rgba(239,68,68,0.15); color: #f87171; }
+  .imp-tag.med { background: rgba(249,115,22,0.15); color: #fb923c; }
+  .imp-tag.low { background: rgba(16,185,129,0.15); color: #34d399; }
+
+  .verdict {
+    background: linear-gradient(135deg, rgba(249,115,22,0.1), rgba(249,115,22,0.05));
+    border: 1px solid rgba(249,115,22,0.2); border-radius: 16px; padding: 20px; margin-top: 8px;
+    text-align: center;
+  }
+  .verdict-title { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+  .verdict-desc { font-size: 12px; color: #9ca3af; line-height: 1.6; }
+  .verdict-actions { display: flex; gap: 10px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
+  .vbtn { font-size: 12px; font-weight: 700; padding: 9px 20px; border-radius: 999px; cursor: pointer; }
+  .vbtn.primary { background: #f97316; color: white; box-shadow: 0 4px 14px rgba(249,115,22,0.3); }
+  .vbtn.secondary { background: #1f2937; color: #d1d5db; }
+</style>
+</head>
+<body>
+
+<h1>VitrineMOTORS — Auditoria Visual</h1>
+<p class="tagline">Análise do código atual + propostas de melhoria para o frontend</p>
+
+<!-- ======== 1. HEADER ======== -->
+<div class="section-title">01 — Header / Navegação</div>
+
+<div class="improvement-note">
+  <div class="imp-icon">🚨</div>
+  <div>
+    <div class="imp-title">Logo transborda o header (bug visual)</div>
+    <div class="imp-desc">O logo usa <code>h-24</code> (96px) dentro de um header <code>h-16</code> (64px) — ele extravasa visualmente. Além disso, o gradiente de fundo <code>FAF9F7→white→FDF8F3</code> é muito sutil, não há âncora visual clara para a marca.</div>
+    <div class="imp-tags">
+      <span class="imp-tag high">Bug visual</span>
+      <span class="imp-tag high">Logo overflow</span>
+      <span class="imp-tag med">Branding fraco</span>
+    </div>
+  </div>
+</div>
+
+<div class="compare-row">
+  <div class="panel before">
+    <div class="panel-label"><div class="dot"></div> Atual</div>
+    <div class="panel-body" style="padding: 0; overflow: hidden;">
+      <div class="header-current">
+        <div style="position: relative; height: 64px; display: flex; align-items: center; overflow: visible;">
+          <div class="logo-overflow">VITRINEMOTORS ↑ overflow 32px</div>
+        </div>
+        <div class="nav-pills">
+          <div class="nav-pill active">🚗 Autos</div>
+          <div class="nav-pill">🏍 Motos</div>
+          <div class="nav-pill">⛵ Barcos</div>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <div class="header-btn outline">Iniciar sesion</div>
+          <div class="header-btn primary">+ Publicar</div>
+        </div>
+      </div>
+      <div style="padding: 10px 16px; background: #fff9f5;">
+        <div class="issue">⚠ h-24 no header h-16 — logo de 96px dentro de container de 64px</div>
+        <div class="issue">⚠ Gradiente quente muito sutil — header quase invisível no scroll</div>
+        <div class="issue">⚠ Sem nenhuma separação visual entre header e page em modo light</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel after">
+    <div class="panel-label"><div class="dot"></div> Proposto</div>
+    <div class="panel-body" style="padding: 0; overflow: hidden;">
+      <div class="header-new">
+        <div class="logo-new">
+          <div class="logo-mark">
+            <svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+          </div>
+          <div class="logo-text">Vitrine<span>MOTORS</span></div>
+        </div>
+        <div class="nav-new">
+          <div class="nav-link-new">Inicio</div>
+          <div class="nav-link-new active">Autos</div>
+          <div class="nav-link-new">Motos</div>
+          <div class="nav-link-new">Barcos</div>
+          <div class="nav-link-new">Financiar</div>
+          <div class="nav-link-new">Precios</div>
+        </div>
+        <div class="header-right-new">
+          <div class="btn-login-new">Entrar</div>
+          <div class="btn-pub-new">➕ Publicar</div>
+        </div>
+      </div>
+      <div style="padding: 10px 16px; background: #f0fdf4;">
+        <div class="fix">✅ Logo h-8 (32px) com logomarca — cabe perfeitamente em h-16</div>
+        <div class="fix">✅ Linha de acento laranja no bottom indica página ativa</div>
+        <div class="fix">✅ Fundo branco puro + sombra leve — âncora visual clara</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== 2. SEARCH BAR ======== -->
+<div class="section-title">02 — Barra de Busca</div>
+
+<div class="improvement-note">
+  <div class="imp-icon">🔍</div>
+  <div>
+    <div class="imp-title">Search bar não comunica escala</div>
+    <div class="imp-desc">A barra atual tem 4 selects em grid que parecem formulário burocrático. Referências como AutoTrader, Cars.com e OLX usam uma barra unificada com sections internas — comunica mais poder e menos atrito. Também falta um headline que contextualize o produto.</div>
+    <div class="imp-tags">
+      <span class="imp-tag high">UX friction</span>
+      <span class="imp-tag med">Conversão</span>
+      <span class="imp-tag low">Visual hierarchy</span>
+    </div>
+  </div>
+</div>
+
+<div class="compare-row">
+  <div class="panel before">
+    <div class="panel-label"><div class="dot"></div> Atual</div>
+    <div class="panel-body">
+      <div class="search-current">
+        <div class="search-tabs">
+          <div class="stab active">🚗 Autos</div>
+          <div class="stab inactive">🏍 Motos</div>
+          <div class="stab inactive">⛵ Barcos</div>
+        </div>
+        <div class="filters-grid">
+          <div class="filter-box"><div class="filter-icon"></div><div class="filter-text">Todas las marcas</div></div>
+          <div class="filter-box"><div class="filter-icon"></div><div class="filter-text">Condición</div></div>
+          <div class="filter-box"><div class="filter-icon"></div><div class="filter-text">Precio máximo</div></div>
+          <div class="filter-box"><div class="filter-icon"></div><div class="filter-text">Buscar marca, modelo...</div></div>
+        </div>
+        <div class="search-btn-row">
+          <div class="search-btn">🔍 Buscar autos</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel after">
+    <div class="panel-label"><div class="dot"></div> Proposto</div>
+    <div class="panel-body">
+      <div class="search-new">
+        <div class="search-hero-headline">Encontrá tu próximo<br><span>vehículo en Paraguay</span></div>
+        <div class="tab-row-new">
+          <div class="stab-new active">🚗 Autos</div>
+          <div class="stab-new inactive">🏍 Motos</div>
+          <div class="stab-new inactive">⛵ Barcos</div>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <div class="search-bar-unified" style="flex: 1;">
+            <div class="sbar-section">
+              <div class="sbar-label">Marca</div>
+              <div class="sbar-value">Todas</div>
+            </div>
+            <div class="sbar-section">
+              <div class="sbar-label">Condición</div>
+              <div class="sbar-value">Cualquier</div>
+            </div>
+            <div class="sbar-section" style="border: none;">
+              <div class="sbar-label">Precio hasta</div>
+              <div class="sbar-value">Sin límite</div>
+            </div>
+          </div>
+          <div class="search-btn-new">Buscar →</div>
+        </div>
+        <div class="search-count"><span>847 vehículos</span> disponibles ahora</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== 3. LISTING CARD ======== -->
+<div class="section-title">03 — Card de Anúncio</div>
+
+<div class="improvement-note">
+  <div class="imp-icon">🃏</div>
+  <div>
+    <div class="imp-title">Preço escondido no conteúdo — deve estar na imagem</div>
+    <div class="imp-desc">O preço é o elemento mais importante do card mas aparece em fonte pequena abaixo do título. Mover o preço para overlay da imagem (fundo escuro) cria hierarquia visual imediata e aproveita o padrão de mercados imobiliários/automotivos de alta conversão.</div>
+    <div class="imp-tags">
+      <span class="imp-tag high">Conversão</span>
+      <span class="imp-tag med">Hierarquia visual</span>
+      <span class="imp-tag low">Scan pattern</span>
+    </div>
+  </div>
+</div>
+
+<div class="compare-row">
+  <div class="panel before">
+    <div class="panel-label"><div class="dot"></div> Atual</div>
+    <div class="panel-body" style="display: flex; justify-content: center;">
+      <div class="card-current">
+        <div class="card-img">
+          <div class="card-img-placeholder">📷 foto do veículo</div>
+          <div class="badge-on-img">DESTACADO</div>
+          <div class="card-heart">🤍</div>
+        </div>
+        <div class="card-body-current">
+          <div class="card-title">Toyota Hilux 2021 4x4</div>
+          <div class="card-price">$28.500</div>
+          <div class="specs-row">
+            <div class="spec-chip">2021</div>
+            <div class="spec-chip">85.000 km</div>
+            <div class="spec-chip">Diesel</div>
+          </div>
+          <div class="card-location">📍 Asunción</div>
+          <div class="card-divider">
+            <div class="card-seller">Particular</div>
+            <div class="wa-btn">💬 WhatsApp</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel after">
+    <div class="panel-label"><div class="dot"></div> Proposto</div>
+    <div class="panel-body" style="display: flex; justify-content: center;">
+      <div class="card-new">
+        <div class="card-img-new">
+          <div style="font-size: 40px; opacity: 0.3; z-index: 0;">🚗</div>
+          <div class="card-img-gradient"></div>
+          <div class="badge-boost">⚡ GOLD</div>
+          <div class="heart-new">🤍</div>
+          <div class="price-on-img">$28.500</div>
+        </div>
+        <div class="card-body-new">
+          <div class="card-title-new">Toyota Hilux 2021 4x4 SRX</div>
+          <div class="specs-row-new">
+            <div class="spec-chip-new">📅 2021</div>
+            <div class="spec-chip-new">⛽ Diesel</div>
+            <div class="spec-chip-new">📍 Asunción</div>
+          </div>
+          <div class="card-bottom-new">
+            <div class="dealer-info-new">
+              <div class="dealer-avatar">AC</div>
+              <div class="dealer-name-new">AutoCenter</div>
+              <div class="verified-icon">✓</div>
+            </div>
+            <div class="wa-btn-new">💬 WhatsApp</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== 4. COMO FUNCIONA ======== -->
+<div class="section-title">04 — "¿Cómo Funciona?" Section</div>
+
+<div class="improvement-note">
+  <div class="imp-icon">🪜</div>
+  <div>
+    <div class="imp-title">Seção de passos parece genérica demais</div>
+    <div class="imp-desc">Cards soltos sem conexão visual entre os passos não comunicam um fluxo. Adicionar uma linha conectora + ícones numerados em círculo com sombra laranja cria senso de progressão e narrativa — aumenta a compreensão do produto.</div>
+    <div class="imp-tags">
+      <span class="imp-tag med">Comunicação de produto</span>
+      <span class="imp-tag low">Visual polish</span>
+    </div>
+  </div>
+</div>
+
+<div class="compare-row">
+  <div class="panel before">
+    <div class="panel-label"><div class="dot"></div> Atual</div>
+    <div class="panel-body">
+      <div class="steps-current">
+        <div class="step-card">
+          <div class="step-icon-box">📋</div>
+          <div class="step-num">Paso 01</div>
+          <div class="step-title">Publicá tu vehículo</div>
+          <div class="step-desc">Completá los datos, subí fotos...</div>
+        </div>
+        <div class="step-card">
+          <div class="step-icon-box">📸</div>
+          <div class="step-num">Paso 02</div>
+          <div class="step-title">Recibí consultas</div>
+          <div class="step-desc">Los compradores interesados...</div>
+        </div>
+        <div class="step-card">
+          <div class="step-icon-box">🤝</div>
+          <div class="step-num">Paso 03</div>
+          <div class="step-title">Cerrá la venta</div>
+          <div class="step-desc">Coordiná con el comprador...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel after">
+    <div class="panel-label"><div class="dot"></div> Proposto</div>
+    <div class="panel-body" style="padding: 24px 16px;">
+      <div class="steps-new">
+        <div class="step-new">
+          <div class="step-circle">1</div>
+          <div class="step-title-new">Publicá tu vehículo</div>
+          <div class="step-desc-new">Fotos, precio y datos<br>en minutos. Gratis.</div>
+        </div>
+        <div class="step-new" style="position: relative;">
+          <div style="position: absolute; top: 20px; left: -8px; color: #f97316; opacity: 0.4; font-size: 20px;">→</div>
+          <div class="step-circle">2</div>
+          <div class="step-title-new">Recibí consultas</div>
+          <div class="step-desc-new">WhatsApp y formulario.<br>Gestioná tus leads.</div>
+        </div>
+        <div class="step-new" style="position: relative;">
+          <div style="position: absolute; top: 20px; left: -8px; color: #f97316; opacity: 0.4; font-size: 20px;">→</div>
+          <div class="step-circle">3</div>
+          <div class="step-title-new">Cerrá la venta</div>
+          <div class="step-desc-new">Sin comisiones.<br>100% tuyo.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== 5. CTA SECTION ======== -->
+<div class="section-title">05 — CTA Final</div>
+
+<div class="improvement-note">
+  <div class="imp-icon">🎯</div>
+  <div>
+    <div class="imp-title">CTA usa cores hardcoded + não tem métricas de credibilidade</div>
+    <div class="imp-desc">O CTA atual usa <code>#0F172A</code> hardcoded (violação do design system) e não aproveita social proof. Adicionar números de vendedores/anúncios ao lado do headline aumenta conversão — dado por referências como Olx, Kavak, e AutoTrader.</div>
+    <div class="imp-tags">
+      <span class="imp-tag high">Design system violation</span>
+      <span class="imp-tag med">Social proof</span>
+      <span class="imp-tag med">Conversão</span>
+    </div>
+  </div>
+</div>
+
+<div class="compare-row">
+  <div class="panel before">
+    <div class="panel-label"><div class="dot"></div> Atual</div>
+    <div class="panel-body" style="padding: 0;">
+      <div class="cta-current">
+        <div class="cta-bg"></div>
+        <div class="cta-content">
+          <div class="cta-label">Vendé con nosotros</div>
+          <div class="cta-title">¿Querés vender tu vehículo?</div>
+          <div class="cta-subtitle">Publicá gratis y llegá a miles de compradores en todo Paraguay.</div>
+          <div class="cta-btns">
+            <div class="cta-btn-primary">Publicar mi vehículo →</div>
+            <div class="cta-btn-secondary">Crear cuenta gratis</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel after">
+    <div class="panel-label"><div class="dot"></div> Proposto</div>
+    <div class="panel-body" style="padding: 0;">
+      <div class="cta-new">
+        <div class="cta-new-bg">
+          <div class="cta-new-content">
+            <div class="cta-new-eyebrow">🚀 Vendé con nosotros</div>
+            <div class="cta-new-title">Publicá gratis.<br>Vendé <span>más rápido.</span></div>
+            <div class="cta-new-subtitle">Llegá a miles de compradores en todo Paraguay — sin comisiones, sin límites.</div>
+            <div class="cta-new-stats">
+              <div class="stat"><div class="stat-num">2.4k</div><div class="stat-label">vendedores</div></div>
+              <div class="stat-divider"></div>
+              <div class="stat"><div class="stat-num">850+</div><div class="stat-label">anúncios</div></div>
+              <div class="stat-divider"></div>
+              <div class="stat"><div class="stat-num">4.8★</div><div class="stat-label">avaliação</div></div>
+            </div>
+            <div class="cta-new-btns">
+              <div class="cta-new-btn-primary">Publicar mi vehículo →</div>
+              <div class="cta-new-btn-sec">Crear cuenta gratis</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== VERDICT ======== -->
+<div class="verdict">
+  <div class="verdict-title">📊 Resumo: 5 melhorias de alto impacto</div>
+  <div class="verdict-desc">
+    Todas as mudanças estão dentro do design system existente (Tailwind 4, tokens de cor, Oswald headings).<br>
+    Nenhuma mudança arquitetural — só ajustes de componentes individuais.
+  </div>
+  <div class="verdict-actions">
+    <div class="vbtn primary" onclick="document.title='APPROVED'">✅ Aprovar e planejar implementação</div>
+    <div class="vbtn secondary">💬 Quero ajustar algo</div>
+  </div>
+</div>
+
+</body>
+</html>

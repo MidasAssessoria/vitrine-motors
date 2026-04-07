@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Sitemap (atualizar com URL de producao)
+Sitemap: https://vitrinemotors.com.py/sitemap.xml
+
+# Bloquear paginas internas/admin
+Disallow: /admin
+Disallow: /dealer
+Disallow: /panel
+Disallow: /perfil
+Disallow: /boost

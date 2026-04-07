@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plano Stitch × VitrineMOTORS</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #0f0f13; color: #e5e7eb; padding: 24px; max-width: 960px; margin: 0 auto; }
+
+  h1 { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+  .sub { font-size: 13px; color: #9ca3af; margin-bottom: 32px; }
+
+  .section-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+    color: #f97316; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: #1f2937; }
+
+  /* Skills grid */
+  .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 32px; }
+  .skill-card { background: #1a1a2e; border: 1px solid #2d2d44; border-radius: 14px; padding: 16px; }
+  .skill-card.new { border-color: rgba(249,115,22,0.3); background: linear-gradient(135deg, #1a1a2e, #1f1820); }
+  .skill-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .skill-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .skill-icon.orange { background: rgba(249,115,22,0.15); }
+  .skill-icon.blue { background: rgba(99,102,241,0.15); }
+  .skill-icon.green { background: rgba(16,185,129,0.15); }
+  .skill-icon.purple { background: rgba(139,92,246,0.15); }
+  .skill-name { font-size: 14px; font-weight: 800; color: #fff; }
+  .skill-trigger { font-size: 10px; color: #9ca3af; font-family: monospace; }
+  .new-badge { font-size: 9px; font-weight: 700; background: rgba(249,115,22,0.2); color: #f97316; border: 1px solid rgba(249,115,22,0.3); padding: 2px 7px; border-radius: 999px; margin-left: 6px; }
+  .skill-desc { font-size: 12px; color: #9ca3af; line-height: 1.5; }
+  .skill-role { font-size: 11px; color: #d1d5db; margin-top: 8px; padding: 6px 10px; background: rgba(255,255,255,0.04); border-radius: 8px; border-left: 3px solid #f97316; }
+
+  /* Pipeline visual */
+  .pipeline { display: flex; align-items: stretch; gap: 0; margin-bottom: 32px; overflow-x: auto; }
+  .pipe-step {
+    flex: 1; min-width: 140px; background: #1a1a2e; border: 1px solid #2d2d44;
+    padding: 16px 14px; text-align: center; position: relative;
+  }
+  .pipe-step:first-child { border-radius: 14px 0 0 14px; }
+  .pipe-step:last-child { border-radius: 0 14px 14px 0; }
+  .pipe-step.highlight { background: linear-gradient(135deg, rgba(249,115,22,0.1), rgba(249,115,22,0.05)); border-color: rgba(249,115,22,0.3); }
+  .pipe-arrow {
+    display: flex; align-items: center; color: #374151; font-size: 18px; padding: 0 4px; flex-shrink: 0;
+    background: #1a1a2e; border-top: 1px solid #2d2d44; border-bottom: 1px solid #2d2d44;
+  }
+  .pipe-num { font-size: 10px; font-weight: 700; color: #f97316; letter-spacing: 2px; margin-bottom: 6px; }
+  .pipe-tool { font-size: 11px; font-family: monospace; background: rgba(249,115,22,0.1); color: #f97316; padding: 3px 8px; border-radius: 6px; margin-bottom: 8px; display: inline-block; }
+  .pipe-title { font-size: 12px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .pipe-desc { font-size: 10px; color: #6b7280; line-height: 1.4; }
+
+  /* Scope selector */
+  .scope-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 32px; }
+  .scope-option {
+    background: #1a1a2e; border: 2px solid #2d2d44; border-radius: 14px; padding: 16px;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .scope-option:hover { border-color: #f97316; transform: translateY(-2px); }
+  .scope-option.selected { border-color: #f97316; background: rgba(249,115,22,0.07); }
+  .scope-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .scope-letter { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 900; flex-shrink: 0; }
+  .scope-letter.a { background: rgba(249,115,22,0.15); color: #f97316; }
+  .scope-letter.b { background: rgba(99,102,241,0.15); color: #818cf8; }
+  .scope-letter.c { background: rgba(16,185,129,0.15); color: #34d399; }
+  .scope-title { font-size: 14px; font-weight: 800; color: #fff; }
+  .scope-sub { font-size: 11px; color: #9ca3af; }
+  .scope-items { font-size: 11px; color: #6b7280; line-height: 2; }
+  .scope-items span { display: block; }
+  .scope-time { margin-top: 10px; font-size: 10px; color: #f97316; font-weight: 700; }
+
+  /* Safety box */
+  .safety-box {
+    background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(16,185,129,0.03));
+    border: 1px solid rgba(16,185,129,0.2); border-radius: 14px; padding: 16px 20px; margin-bottom: 32px;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .safety-icon { font-size: 24px; flex-shrink: 0; }
+  .safety-title { font-size: 14px; font-weight: 700; color: #34d399; margin-bottom: 6px; }
+  .safety-desc { font-size: 12px; color: #9ca3af; line-height: 1.6; }
+  .safety-items { margin-top: 8px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .safety-item { font-size: 11px; background: rgba(16,185,129,0.1); color: #6ee7b7; padding: 3px 10px; border-radius: 999px; }
+
+  /* Action row */
+  .action-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .abtn { font-size: 13px; font-weight: 700; padding: 12px 24px; border-radius: 999px; cursor: pointer; transition: all 0.2s; }
+  .abtn:hover { transform: translateY(-1px); }
+  .abtn.primary { background: #f97316; color: white; box-shadow: 0 4px 16px rgba(249,115,22,0.3); }
+  .abtn.secondary { background: #1f2937; color: #d1d5db; border: 1px solid #374151; }
+  .abtn.indigo { background: rgba(99,102,241,0.2); color: #a5b4fc; border: 1px solid rgba(99,102,241,0.3); }
+</style>
+</head>
+<body>
+
+<h1>Plano Stitch × VitrineMOTORS</h1>
+<p class="sub">4 novas skills + 5 melhorias identificadas = pipeline de redesign de alta qualidade</p>
+
+<!-- NOVAS SKILLS -->
+<div class="section-label">Skills disponíveis</div>
+
+<div class="skills-grid">
+  <div class="skill-card new">
+    <div class="skill-header">
+      <div class="skill-icon orange">🎨</div>
+      <div>
+        <div class="skill-name">/design-md <span class="new-badge">NOVO</span></div>
+        <div class="skill-trigger">.stitch/DESIGN.md</div>
+      </div>
+    </div>
+    <div class="skill-desc">Analisa um projeto Stitch e extrai todos os tokens visuais — cores, tipografia, radius, sombras — num arquivo de design system que garante consistência entre todas as telas geradas.</div>
+    <div class="skill-role">→ <strong>Papel aqui:</strong> capturar o DNA visual do VitrineMOTORS antes de gerar qualquer tela nova</div>
+  </div>
+
+  <div class="skill-card new">
+    <div class="skill-header">
+      <div class="skill-icon blue">✨</div>
+      <div>
+        <div class="skill-name">/enhance-prompt <span class="new-badge">NOVO</span></div>
+        <div class="skill-trigger">antes de generate_screen</div>
+      </div>
+    </div>
+    <div class="skill-desc">Transforma descrições vagas em prompts estruturados com seções numeradas, tokens de cor no formato correto e keywords de UI/UX que o Stitch entende — melhora drasticamente a qualidade do resultado.</div>
+    <div class="skill-role">→ <strong>Papel aqui:</strong> obrigatório antes de cada geração — garante que o Stitch produza o que esperamos</div>
+  </div>
+
+  <div class="skill-card new">
+    <div class="skill-header">
+      <div class="skill-icon purple">🔁</div>
+      <div>
+        <div class="skill-name">/stitch-loop <span class="new-badge">NOVO</span></div>
+        <div class="skill-trigger">baton file pattern</div>
+      </div>
+    </div>
+    <div class="skill-desc">Construtor autônomo multi-página. Usa um arquivo de "baton" (.stitch/next-prompt.md) para gerar uma página por vez — cada ciclo gera, integra e prepara o próximo prompt automaticamente.</div>
+    <div class="skill-role">→ <strong>Papel aqui:</strong> escalar depois de validar a primeira tela — gerar Home, Listings, Detail com consistência</div>
+  </div>
+
+  <div class="skill-card new">
+    <div class="skill-header">
+      <div class="skill-icon green">⚡</div>
+      <div>
+        <div class="skill-name">/stitch-ui <span class="new-badge">NOVO</span></div>
+        <div class="skill-trigger">pipeline completo</div>
+      </div>
+    </div>
+    <div class="skill-desc">Pipeline end-to-end: Stitch gera o design visual → código de produção React/Tailwind é implementado a partir do HTML gerado. Inclui /design-md + /enhance-prompt automaticamente.</div>
+    <div class="skill-role">→ <strong>Papel aqui:</strong> implementar cada componente melhorado — não só o HTML do Stitch, mas React de qualidade</div>
+  </div>
+</div>
+
+<!-- PIPELINE -->
+<div class="section-label">Pipeline proposto</div>
+
+<div class="pipeline">
+  <div class="pipe-step">
+    <div class="pipe-num">01</div>
+    <div class="pipe-tool">/design-md</div>
+    <div class="pipe-title">Capturar DNA</div>
+    <div class="pipe-desc">Extrair design system atual do VitrineMOTORS → .stitch/DESIGN.md</div>
+  </div>
+  <div class="pipe-arrow">→</div>
+  <div class="pipe-step highlight">
+    <div class="pipe-num">02</div>
+    <div class="pipe-tool">/enhance-prompt</div>
+    <div class="pipe-title">Otimizar Prompt</div>
+    <div class="pipe-desc">Escrever prompt estruturado para cada componente com DESIGN SYSTEM block</div>
+  </div>
+  <div class="pipe-arrow">→</div>
+  <div class="pipe-step highlight">
+    <div class="pipe-num">03</div>
+    <div class="pipe-tool">Stitch generate</div>
+    <div class="pipe-title">Gerar Design</div>
+    <div class="pipe-desc">Stitch cria o visual de cada componente melhorado</div>
+  </div>
+  <div class="pipe-arrow">→</div>
+  <div class="pipe-step">
+    <div class="pipe-num">04</div>
+    <div class="pipe-tool">get_screen_image</div>
+    <div class="pipe-title">Revisar</div>
+    <div class="pipe-desc">Ver screenshot → aprovar ou usar edit_screens para ajuste pontual</div>
+  </div>
+  <div class="pipe-arrow">→</div>
+  <div class="pipe-step highlight">
+    <div class="pipe-num">05</div>
+    <div class="pipe-tool">/stitch-ui</div>
+    <div class="pipe-title">Implementar</div>
+    <div class="pipe-desc">Converter HTML Stitch em componente React/Tailwind de produção</div>
+  </div>
+  <div class="pipe-arrow">→</div>
+  <div class="pipe-step">
+    <div class="pipe-num">06</div>
+    <div class="pipe-tool">/stitch-loop</div>
+    <div class="pipe-title">Escalar</div>
+    <div class="pipe-desc">Repetir automaticamente para cada página/componente seguinte</div>
+  </div>
+</div>
+
+<!-- SCOPE -->
+<div class="section-label">O que implementar primeiro?</div>
+
+<div class="scope-grid">
+  <div class="scope-option" onclick="toggleSelect(this)" data-choice="quick-wins">
+    <div class="scope-header">
+      <div class="scope-letter a">A</div>
+      <div>
+        <div class="scope-title">Quick Wins</div>
+        <div class="scope-sub">Máximo impacto, mínimo risco</div>
+      </div>
+    </div>
+    <div class="scope-items">
+      <span>✅ Fix logo overflow (bug visual)</span>
+      <span>✅ ListingCard — preço na imagem</span>
+      <span>✅ CTA — remover cores hardcoded</span>
+      <span>✅ Steps — linha conectora</span>
+    </div>
+    <div class="scope-time">~2-3h · Mudanças cirúrgicas nos componentes</div>
+  </div>
+
+  <div class="scope-option" onclick="toggleSelect(this)" data-choice="search-hero">
+    <div class="scope-header">
+      <div class="scope-letter b">B</div>
+      <div>
+        <div class="scope-title">Search Hero</div>
+        <div class="scope-sub">Maior impacto visual + conversão</div>
+      </div>
+    </div>
+    <div class="scope-items">
+      <span>✅ Tudo do Quick Wins</span>
+      <span>✅ Search bar unificada (Stitch UI)</span>
+      <span>✅ Headline de contexto acima da busca</span>
+      <span>✅ Contador de anúncios ao vivo</span>
+    </div>
+    <div class="scope-time">~1 dia · Inclui geração no Stitch</div>
+  </div>
+
+  <div class="scope-option" onclick="toggleSelect(this)" data-choice="full-redesign">
+    <div class="scope-header">
+      <div class="scope-letter c">C</div>
+      <div>
+        <div class="scope-title">Redesign Completo</div>
+        <div class="scope-sub">Home page inteira reconstruída</div>
+      </div>
+    </div>
+    <div class="scope-items">
+      <span>✅ Tudo dos outros escopos</span>
+      <span>✅ Novo header visual</span>
+      <span>✅ Hero re-gerado no Stitch</span>
+      <span>✅ ListingCard novo design</span>
+      <span>✅ Footer redesenhado</span>
+    </div>
+    <div class="scope-time">~2-3 dias · Pipeline completo + stitch-loop</div>
+  </div>
+</div>
+
+<!-- SAFETY -->
+<div class="safety-box">
+  <div class="safety-icon">🛡️</div>
+  <div>
+    <div class="safety-title">Estratégia zero-risco</div>
+    <div class="safety-desc">
+      O projeto não tem git inicializado — por isso todo o trabalho com Stitch vai para a pasta <code>.stitch/</code>
+      dentro do projeto, separada do código. Os designs ficam lá até você aprovar cada um individualmente.
+      Só depois implementamos os componentes React, um por vez, testando após cada mudança.
+    </div>
+    <div class="safety-items">
+      <span class="safety-item">🗂️ .stitch/ isolado do src/</span>
+      <span class="safety-item">👁️ Review visual antes de implementar</span>
+      <span class="safety-item">🔬 Um componente por vez</span>
+      <span class="safety-item">🧪 npm run test após cada mudança</span>
+    </div>
+  </div>
+</div>
+
+<div class="action-row">
+  <div class="abtn primary" onclick="document.title='START-A'">⚡ Começar com Quick Wins (A)</div>
+  <div class="abtn indigo" onclick="document.title='START-B'">🔍 Focar na Search Hero (B)</div>
+  <div class="abtn secondary" onclick="document.title='START-C'">🚀 Redesign completo (C)</div>
+</div>
+
+<script>
+function toggleSelect(el) {
+  document.querySelectorAll('.scope-option').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+}
+</script>
+</body>
+</html>

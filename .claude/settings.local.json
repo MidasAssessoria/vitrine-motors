@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(\"/c/Users/jhcar/AppData/Local/Programs/Python/Python312/python.exe\" \"C:/Users/jhcar/AppData/Local/Temp/create_vm_skills.py\")",
+      "WebSearch",
+      "Bash(python -c \"import sys,json; p=json.load\\(sys.stdin\\); print\\(json.dumps\\({k:p[k] for k in [''''scripts'''',''''devDependencies'''',''''dependencies''''] if k in p}, indent=2\\)\\)\")",
+      "Bash(mkdir -p \"C:/Users/jhcar/OneDrive/Área de Trabalho/VITRINEMOTORS/vitrinemotors/.claude/skills/polish\")",
+      "Bash(mkdir -p \"C:/Users/jhcar/OneDrive/Área de Trabalho/VITRINEMOTORS/vitrinemotors/.claude/skills/a11y\")",
+      "Bash(mkdir -p \"C:\\\\Users\\\\jhcar\\\\OneDrive\\\\Área de Trabalho\\\\VITRINEMOTORS\\\\vitrinemotors\\\\public\\\\images\\\\hero\")",
+      "Bash(cp \"C:\\\\Users\\\\jhcar\\\\OneDrive\\\\Área de Trabalho\\\\imagens genspark\\\\unnamed.jpg\" \"C:\\\\Users\\\\jhcar\\\\OneDrive\\\\Área de Trabalho\\\\VITRINEMOTORS\\\\vitrinemotors\\\\public\\\\images\\\\hero\\\\hero-desktop-1.jpg\")",
+      "Bash(cp \"C:\\\\Users\\\\jhcar\\\\OneDrive\\\\Área de Trabalho\\\\imagens genspark\\\\unnamed \\(2\\).jpg\" \"C:\\\\Users\\\\jhcar\\\\OneDrive\\\\Área de Trabalho\\\\VITRINEMOTORS\\\\vitrinemotors\\\\public\\\\images\\\\hero\\\\hero-desktop-2.jpg\")",
+      "Bash(cp \"C:\\\\Users\\\\jhcar\\\\OneDrive\\\\Área de Trabalho\\\\imagens genspark\\\\unnamed \\(1\\).jpg\" \"C:\\\\Users\\\\jhcar\\\\OneDrive\\\\Área de Trabalho\\\\VITRINEMOTORS\\\\vitrinemotors\\\\public\\\\images\\\\hero\\\\hero-mobile-1.jpg\")",
+      "Bash(python -c \":*)",
+      "Bash(rm hero-desktop-1.jpg hero-desktop-2.jpg hero-mobile-1.jpg)",
+      "Bash(mv hero-desktop-1.webp banner-carros-desktop.webp)",
+      "Bash(mv hero-desktop-2.webp banner-luxury-desktop.webp)",
+      "Bash(mv hero-mobile-1.webp banner-tucson-mobile.webp)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(npm run:*)",
+      "Bash(npx vitest:*)",
+      "Bash(python -c \"import json; json.load\\(open\\(''C:/Users/jhcar/OneDrive/Área de Trabalho/VITRINEMOTORS/vitrinemotors/.claude/settings.json''\\)\\); print\\(''JSON válido''\\)\")",
+      "Bash(python -c \"import json; json.load\\(open\\(''C:/Users/jhcar/OneDrive/\\\\u00c1rea de Trabalho/VITRINEMOTORS/vitrinemotors/.claude/settings.json'', encoding=''utf-8''\\)\\); print\\(''JSON valido''\\)\")",
+      "mcp__Claude_Preview__preview_start",
+      "Read(//c/Users/jhcar/OneDrive/Área de Trabalho/mcp google stitch/**)",
+      "Bash(SCRIPTS_DIR=\"/c/Users/jhcar/OneDrive/Área de Trabalho/superpowers/skills/brainstorming/scripts\")",
+      "Bash(PROJECT_DIR=\"/c/Users/jhcar/OneDrive/Área de Trabalho/VITRINEMOTORS/vitrinemotors\")",
+      "Bash(bash \"$SCRIPTS_DIR/start-server.sh\" --project-dir \"$PROJECT_DIR\")"
+    ]
+  }
+}
